@@ -79,9 +79,9 @@ jobs:
           
       - name: Publish to Marketplace
         env:
-          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+          VSCE_TOKEN: jtnocbdtrijcrrdxf5kbpwg2ygr55byjsbjwmv32ire74xmkxtda
         run: |
-          tfx extension publish --token jtnocbdtrijcrrdxf5kbpwg2ygr55byjsbjwmv32ire74xmkxtda
+          tfx extension publish --token $VSCE_TOKEN
           jq --arg incremented_version "$incremented_version" '.version = $incremented_version' vss-extension.json > vss-extension.json-modified.json
           mv vss-extension.json-modified.json vss-extension.json
           cat vss-extension.json
