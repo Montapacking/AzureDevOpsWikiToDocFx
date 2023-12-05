@@ -32,7 +32,7 @@ jobs:
           git add package.json
           git commit -m "Increment version to $incremented_version"
       
-          git push origin main
+          git push origin dev-test-action
       
           echo "::set-output name=version::$incremented_version"
           
@@ -51,7 +51,7 @@ jobs:
           git add vss-extension.json
           git commit -m "Increment version to $incremented_version"
       
-          git push origin main
+          git push origin dev-test-action
       
           echo "::set-output name=version::$incremented_version"
 
