@@ -74,7 +74,7 @@ function Copy-Tree {
     }
 
     # Get lines in .order file
-    $SubdirectoryOrderFileLines = Get-Content -Path $SubDirectoryOrderFile.FullName
+    $SubdirectoryOrderFileLines = @(Get-Content -Path $SubDirectoryOrderFile.FullName)
     if ($SubdirectoryOrderFileLines.Count -gt 0) {
 
       if ($TocSubdirectories.Count -gt 0) {
@@ -131,7 +131,7 @@ function Copy-MarkdownFile {
   $ThreeDotsStarted = 0;
   $Silent = $false
   $ContentWritten = $false
-  foreach($MdLine in Get-Content -Path $Path) {
+  foreach($MdLine in @(Get-Content -Path $Path)) {
     # Process ::: marker for mermaid and private (content to hide)
     if ($MdLine.TrimStart().StartsWith($SpecialsMarker))
     {
@@ -182,7 +182,7 @@ if ($OrderFilesFound.Count -ne 1) {
 }
 
 # Create homepage for first file in de .order file
-$OrderFileLines = Get-Content -Path (Join-Path $InputDir $OrderFilesFound[0].Name)
+$OrderFileLines = @(Get-Content -Path (Join-Path $InputDir $OrderFilesFound[0].Name))
 
 if ($OrderFileLines.Count -lt 1) {
   Throw "$OrderFileName file in Input directory is empty"
@@ -194,7 +194,7 @@ Copy-MarkdownFile -Path (Join-Path $InputDir "$($OrderFileLines[0])$MarkdownExte
 
 # Create TOC file and for the rest of the files in the .order file and copy files to the right directory
 $TocContents = ""
-foreach($OrderFileLine in ($OrderFileLines | Select-Object -Skip 1))
+foreach($OrderFileLine in ($OrderFileLines))
 {
   $TocContents += "- name: $OrderFileLine`n"
   $TocContents += "  href: $OrderFileLine/`n"
