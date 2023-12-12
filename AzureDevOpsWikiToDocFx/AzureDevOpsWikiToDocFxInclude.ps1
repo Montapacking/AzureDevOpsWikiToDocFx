@@ -641,7 +641,7 @@ function Process-Repository {
                 continue
             }
 
-            Write-Host "Modifying Markdown file: $($mdFile.FullName)"
+            Write-Host "Modifying Markdown file:  $($mdFile.FullName)"
 
             $lastCommitDate = git log -n 1 --format="%ar" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
             $existingContent = Get-Content -Path $mdFile.FullName
