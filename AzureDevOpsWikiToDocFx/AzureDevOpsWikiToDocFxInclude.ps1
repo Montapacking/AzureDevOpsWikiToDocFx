@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = "Stop" # Stop on first error
 
-# Constants
+# Constantss
 
 $OrderFileName = ".order"
 $MarkdownExtension = ".md"
