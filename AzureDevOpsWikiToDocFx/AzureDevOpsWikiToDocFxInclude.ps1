@@ -643,8 +643,9 @@ function Process-Repository {
 
             Write-Host "Modifying Markdown file: $($mdFile.FullName)"
 
-            $logInfo = git log -n 1 --pretty=format:"@Last modified: %ad (%ar) by %an|" --date=short -- $mdFile.FullName
-			$lastCommitInfo = ($logInfo -split '|').Trim()
+            $logInfo = git log -n 1 --pretty=format:"Last modified: %ad (%ar) by %an" --date=short -- $mdFile.FullName
+			$lastCommitInfo = $logInfo.Trim()
+
 
 
             $existingContent = Get-Content -Path $mdFile.FullName
