@@ -2,7 +2,7 @@
 
 $ErrorActionPreference = "Stop" # Stop on first error
 
-# Constantss
+# Constants
 
 $OrderFileName = ".order"
 $MarkdownExtension = ".md"
@@ -641,7 +641,7 @@ function Process-Repository {
                 continue
             }
 
-            Write-Host "Modifying Markdown file:  $($mdFile.FullName)"
+            Write-Host "Modifying Markdown file: $($mdFile.FullName)"
 
             $lastCommitDate = git log -n 1 --format="%ar" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
             $existingContent = Get-Content -Path $mdFile.FullName
@@ -649,7 +649,7 @@ function Process-Repository {
             $existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
             $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
 
-            $newContent = $existingContent + "`n$lastModifiedLine"
+            $newContent =  "`n$lastModifiedLine"  + $existingContent 
 
             $newContent | Set-Content -Path $mdFile.FullName
         }
