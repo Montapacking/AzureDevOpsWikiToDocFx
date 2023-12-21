@@ -490,10 +490,18 @@ function Copy-DevOpsWikiToDocFx {
 		Remove-Item -Path $OutputDir -Recurse -Force
 	}
 
+
   # Sort audience keywords by longest first
   $AudienceKeywords = $AudienceKeywords | Sort-Object Length -Descending
-
+  if ($env:RepoUrlWithPat ) {
+	  Process-Repository -repoUrlWithPat $env:RepoUrlWithPat
+	  }
+	  else
+	  {
+		  Write-Host "No RepoUrlWithPat key was found, skipping this step"
+		  }
   # Search .order file
+  
 
   $OrderFilesFound = Get-ChildItem -Path $InputDir | Where-Object Name -eq $OrderFileName
   if ($OrderFilesFound.Count -ne 1) {
@@ -602,19 +610,13 @@ function Copy-DevOpsWikiToDocFx {
   }
 "@
   Set-Content -Path (Join-Path $OutputDir $DocFxJsonFilename) -Value $DocFxJson
-   if ($env:RepoUrlWithPat ) {
-    Process-Repository -repoUrlWithPat $env:RepoUrlWithPat
-	}
-	else
-	{
-		Write-Host "No RepoUrlWithPat key was found, skipping this step"
-	}
 }
 
 function Process-Repository {
     param (
         [string]$RepoUrlWithPat
     )
+	$newWorkingDirectory = New-Item -ItemType Directory -Force -Path (Join-Path $env:TEMP (Get-Random))
 
     Write-Host "Setting credentials"
     git config --global user.email "*"
@@ -622,9 +624,9 @@ function Process-Repository {
 
     Write-Host "Repository URL with PAT: $RepoUrlWithPat"
 
-    #git clone $RepoUrlWithPat $env:System_DefaultWorkingDirectory
+	git clone $RepoUrlWithPat $newWorkingDirectory
 
-    Set-Location -Path $InputDir
+    Set-Location -Path $newWorkingDirectory
 
     function Log-FindAndModify-MdFiles() {
 
@@ -655,6 +657,24 @@ function Process-Repository {
         git add .
         git commit -m "Success!"
     }
+	
+	function Compare-And-Replace-MdFiles {
+        $oldMdFiles = Get-ChildItem -Path $env:System_DefaultWorkingDirectory -Filter *.md -File -Recurse
+        $newMdFiles = Get-ChildItem -Path $newWorkingDirectory -Filter *.md -File -Recurse
 
-    Log-FindAndModify-MdFiles
+        foreach ($oldMdFile in $oldMdFiles) {
+            $matchingNewFile = $newMdFiles | Where-Object { $_.Name -eq $oldMdFile.Name }
+
+            if ($matchingNewFile -ne $null) {
+
+                if ((Get-Content $oldMdFile.FullName) -ne (Get-Content $matchingNewFile.FullName)) {
+                    Write-Host "Updating $($oldMdFile.FullName)"
+                    Copy-Item -Path $matchingNewFile.FullName -Destination $oldMdFile.FullName -Force
+                }
+            }
+        }
+    }
+	Log-FindAndModify-MdFiles
+	Compare-And-Replace-MdFiles
+	$InputDir = $env:System_DefaultWorkingDirectory
 }
