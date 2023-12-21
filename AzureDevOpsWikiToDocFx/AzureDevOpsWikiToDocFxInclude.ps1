@@ -630,33 +630,34 @@ function Process-Repository {
 
     function Log-FindAndModify-MdFiles() {
 
-        git fetch
-        git checkout $env:BUILD_SOURCEVERSION
-        Write-Host "Recursively finding Markdown files and modifying them"
+    git fetch
+    git checkout $env:BUILD_SOURCEVERSION
+    Write-Host "Recursively finding Markdown files and modifying them"
 
-        $markdownFiles = Get-ChildItem -Path . -Filter *.md -File -Recurse
-        foreach ($mdFile in $markdownFiles) {
-            if ($mdFile.Name -eq 'Home.md') {
-                Write-Host "Skipping file 'home'"
-                continue
-            }
-
-            Write-Host "Modifying Markdown file: $($mdFile.FullName)"
-
-            $lastCommitDate = git log -n 1 --format="%ar" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
-            $existingContent = Get-Content -Path $mdFile.FullName
-
-            $existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
-            $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
-
-            $newContent = $existingContent + "`n$lastModifiedLine"
-
-            $newContent | Set-Content -Path $mdFile.FullName
+    $markdownFiles = Get-ChildItem -Path . -Filter *.md -File -Recurse
+    foreach ($mdFile in $markdownFiles) {
+        if ($mdFile.Name -eq 'Home.md') {
+            Write-Host "Skipping file 'home'"
+            continue
         }
 
-        git add .
-        git commit -m "Success!"
+        Write-Host "Modifying Markdown file: $($mdFile.FullName)"
+
+        $lastCommitDate = git log -n 1 --format="%ar" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
+        $existingContent = Get-Content -Path $mdFile.FullName
+
+        $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
+        
+        # Insert the new line at the beginning of the file
+        $newContent = $lastModifiedLine + "`n" + $existingContent
+
+        $newContent | Set-Content -Path $mdFile.FullName
     }
+
+    git add .
+    git commit -m "Success!"
+	}
+
 	
 	function Compare-And-Replace-MdFiles {
         $oldMdFiles = Get-ChildItem -Path $env:System_DefaultWorkingDirectory -Filter *.md -File -Recurse
