@@ -648,7 +648,7 @@ function Process-Repository {
 
         $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
         
-        # Insert the new line at the beginning of the file
+        # Insert the new line at the beginning of the filee
 
 
         $newContent | Set-Content -Path $mdFile.FullName
