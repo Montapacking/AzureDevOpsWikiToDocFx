@@ -644,10 +644,13 @@ function Process-Repository {
             Write-Host "Modifying Markdown file: $($mdFile.FullName)"
 
             $lastCommitDate = git log -n 1 --format="%ar" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
+			$lastCommitDateTwo = git log -n 1 --format="%aD" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
+			$authorName = git log -n 1 --format="%an" -- $mdFile.FullName
+
             $existingContent = Get-Content -Path $mdFile.FullName
 
             $existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
-            $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
+            $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDateTwo , $lastCommitDate by $authorName</div>"
 
             $newContent =   $existingContent  + "`n$lastModifiedLine"  
 
