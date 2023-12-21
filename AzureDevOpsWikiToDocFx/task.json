@@ -1,7 +1,7 @@
 {
-  "id": "084c1e30-640e-11ee-a76b-0dd14da2b6aa",
-  "name": "AzureDevOpsWikiToDocFx-dev",
-  "friendlyName": "AzureDevOpsWikiToDocFx Dev",
+  "id": "089c1e30-640e-11ee-a76b-0dd17da2b6ae",
+  "name": "NotRealJustATest",
+  "friendlyName": "NotRealJustATest",
   "description": "This task creates a DocFX website out of your Azure DevOps wiki repository",
   "author": "Monta",
   "helpUrl": "https://github.com/Montapacking/AzureDevOpsWikiToDocFx/blob/main/README.md",
@@ -11,9 +11,9 @@
   ],
   "demands": [],
   "version": {
-    "Major": "5",
-    "Minor": "0",
-    "Patch": "9"
+    "Major": "23",
+    "Minor": "1",
+    "Patch": "2"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "AzureDevOpsWikiToDocFx $(message)",
@@ -57,6 +57,22 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Name of the directory in the source folder containing the DocFX template files. If the directory does not exist, the default template is used. Example: .docfx_template"
+    },
+    {
+      "name": "ReplaceOutput",
+      "type": "switch",
+      "label": "DetermineReplaceOutputdir",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "A default false argument that unless given true, will NOT replace the outputdir. If given true, it will replace the outputdir. Mostly made for testing reasons"
+    },
+    {
+      "name": "RepoUrlWithPat",
+      "type": "string",
+      "label": "Repo url",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Url of the repo, include the PAT in it"
     }
   ],
   "execution": {
