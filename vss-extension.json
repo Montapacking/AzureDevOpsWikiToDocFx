@@ -1,9 +1,9 @@
 {
   "manifestVersion": 1,
-  "id": "AzureDevOpsWikiToDocFx-dev-test",
-  "name": "Azure DevOps Wiki to DocFx Dev-test",
-  "version": "70.2.9",
-  "publisher": "MontaMdUpdate",
+  "id": "TestEnglishVersion",
+  "name": "NotRealJustATestB",
+  "version": "70.2.2",
+  "publisher": "Monta",
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
@@ -29,17 +29,13 @@
       "path": "LICENSE"
     }
   },
-  "repository": {
-    "type": "git",
-    "uri": "https://github.com/Montapacking/AzureDevOpsWikiToDocFx"
-  },
   "galleryFlags": [
     "Public",
     "Preview"
   ],
   "contributions": [
     {
-      "id": "AzureDevOpsWikiToDocFx",
+      "id": "NotRealJustATestB",
       "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
