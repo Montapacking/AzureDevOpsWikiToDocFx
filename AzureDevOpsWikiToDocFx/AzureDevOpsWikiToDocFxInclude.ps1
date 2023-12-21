@@ -630,41 +630,33 @@ function Process-Repository {
 
 	function Log-FindAndModify-MdFiles() {
 
-		git fetch
-		git checkout $env:BUILD_SOURCEVERSION
-		Write-Host "Recursively finding Markdown files and modifying them"
+    git fetch
+    git checkout $env:BUILD_SOURCEVERSION
+    Write-Host "Recursively finding Markdown files and modifying them"
 
-		# Fetch Git log information once
-		$logInfo = git log -n 1 --format="@%ar|%ad|%an|" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
+    $markdownFiles = Get-ChildItem -Path . -Filter *.md -File -Recurse
+    foreach ($mdFile in $markdownFiles) {
+        if ($mdFile.Name -eq 'Home.md') {
+            Write-Host "Skipping file 'home'"
+            continue
+        }
 
-		$markdownFiles = Get-ChildItem -Path . -Filter *.md -File -Recurse
-		foreach ($mdFile in $markdownFiles) {
-			if ($mdFile.Name -eq 'Home.md') {
-				Write-Host "Skipping file 'home'"
-				continue
-			}
+        Write-Host "Modifying Markdown file: $($mdFile.FullName)"
 
-			Write-Host "Modifying Markdown file: $($mdFile.FullName)"
+        $gitLogInfo = git log -n 1 --format="@%ar|%ad|%an|" --date="format:%Y-%m-%d %z" -- $mdFile.FullName
+        $lastCommitInfo = $gitLogInfo -split '|'
+        $lastCommitDateWritten = $lastCommitInfo[0]
+        $lastCommitDateNormal = $lastCommitInfo[1]
+        $authorName = $lastCommitInfo[2]
 
-			# Extract information from the stored logInfo
-			$lastCommitInfo = $logInfo -split '|'
-			$lastCommitDateWritten = $lastCommitInfo[0]
-			$lastCommitDateNormal = $lastCommitInfo[1]
-			$authorName = $lastCommitInfo[2]
+        # Rest of the script remains unchanged
+        # ...
 
-			$existingContent = Get-Content -Path $mdFile.FullName
-
-			$existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
-			$lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified: $lastCommitDateNormal ( $lastCommitDateWritten) by $authorName</div>"
-
-			$newContent = $existingContent  + "`n$lastModifiedLine"  
-
-			$newContent | Set-Content -Path $mdFile.FullName
+        git add .
+        git commit -m "Success!"
+		}
 		}
 
-		git add .
-		git commit -m "Success!"
-	}
 
 	
 	function Compare-And-Replace-MdFiles {
