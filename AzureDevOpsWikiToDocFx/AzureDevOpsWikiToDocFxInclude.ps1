@@ -490,18 +490,10 @@ function Copy-DevOpsWikiToDocFx {
 		Remove-Item -Path $OutputDir -Recurse -Force
 	}
 
-
   # Sort audience keywords by longest first
   $AudienceKeywords = $AudienceKeywords | Sort-Object Length -Descending
-  if ($env:RepoUrlWithPat ) {
-	  Process-Repository -repoUrlWithPat $env:RepoUrlWithPat
-	  }
-	  else
-	  {
-		  Write-Host "No RepoUrlWithPat key was found, skipping this step"
-		  }
+
   # Search .order file
-  
 
   $OrderFilesFound = Get-ChildItem -Path $InputDir | Where-Object Name -eq $OrderFileName
   if ($OrderFilesFound.Count -ne 1) {
@@ -610,13 +602,19 @@ function Copy-DevOpsWikiToDocFx {
   }
 "@
   Set-Content -Path (Join-Path $OutputDir $DocFxJsonFilename) -Value $DocFxJson
+   if ($env:RepoUrlWithPat ) {
+    Process-Repository -repoUrlWithPat $env:RepoUrlWithPat
+	}
+	else
+	{
+		Write-Host "No RepoUrlWithPat key was found, skipping this step"
+	}
 }
 
 function Process-Repository {
     param (
         [string]$RepoUrlWithPat
     )
-	$newWorkingDirectory = New-Item -ItemType Directory -Force -Path (Join-Path $env:TEMP (Get-Random))
 
     Write-Host "Setting credentials"
     git config --global user.email "*"
@@ -624,9 +622,9 @@ function Process-Repository {
 
     Write-Host "Repository URL with PAT: $RepoUrlWithPat"
 
-	git clone $RepoUrlWithPat $newWorkingDirectory
+    #git clone $RepoUrlWithPat $env:System_DefaultWorkingDirectory
 
-    Set-Location -Path $newWorkingDirectory
+    Set-Location -Path $InputDir
 
     function Log-FindAndModify-MdFiles() {
 
@@ -649,7 +647,7 @@ function Process-Repository {
             $existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
             $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
 
-            $newContent =  "`n$lastModifiedLine"  + $existingContent 
+            $newContent = $existingContent + "`n$lastModifiedLine"
 
             $newContent | Set-Content -Path $mdFile.FullName
         }
@@ -657,24 +655,6 @@ function Process-Repository {
         git add .
         git commit -m "Success!"
     }
-	
-	function Compare-And-Replace-MdFiles {
-        $oldMdFiles = Get-ChildItem -Path $env:System_DefaultWorkingDirectory -Filter *.md -File -Recurse
-        $newMdFiles = Get-ChildItem -Path $newWorkingDirectory -Filter *.md -File -Recurse
 
-        foreach ($oldMdFile in $oldMdFiles) {
-            $matchingNewFile = $newMdFiles | Where-Object { $_.Name -eq $oldMdFile.Name }
-
-            if ($matchingNewFile -ne $null) {
-
-                if ((Get-Content $oldMdFile.FullName) -ne (Get-Content $matchingNewFile.FullName)) {
-                    Write-Host "Updating $($oldMdFile.FullName)"
-                    Copy-Item -Path $matchingNewFile.FullName -Destination $oldMdFile.FullName -Force
-                }
-            }
-        }
-    }
-	Log-FindAndModify-MdFiles
-	Compare-And-Replace-MdFiles
-	$InputDir = $env:System_DefaultWorkingDirectory
+    Log-FindAndModify-MdFiles
 }
