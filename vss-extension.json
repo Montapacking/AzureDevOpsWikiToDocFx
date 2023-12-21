@@ -1,9 +1,9 @@
 {
   "manifestVersion": 1,
   "id": "TestEnglishVersion",
-  "name": "NotRealJustATestB",
-  "version": "70.2.10",
-  "publisher": "Monta",
+  "name": "NotRealJustATestA",
+  "version": "11.0.0",
+  "publisher": "MontaMdUpdate",
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
