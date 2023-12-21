@@ -647,9 +647,10 @@ function Process-Repository {
             $existingContent = Get-Content -Path $mdFile.FullName
 
             $existingContent = $existingContent | Where-Object { $_ -notmatch "Last modified on" }
-            $lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
+			$lastModifiedLine = "<div style='background-color: rgb(0, 157, 224); font-family: 'Muli', sans-serif; font-weight: bold; color: black; text-align: center;'>Last modified on $lastCommitDate</div>"
 
-            $newContent =   $existingContent  + "`n$lastModifiedLine"  
+			$newContent = "$lastModifiedLine`n$existingContent"
+
 
             $newContent | Set-Content -Path $mdFile.FullName
         }
