@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "AzureDevOpsWikiToDocFx-dev-test",
   "name": "AzureDevOpsWikiToDocFx Test Version",
-  "version": "5.0.101",
+  "version": "5.0.102",
   "publisher": "MontaMdUpdate",
   "targets": [
     {
