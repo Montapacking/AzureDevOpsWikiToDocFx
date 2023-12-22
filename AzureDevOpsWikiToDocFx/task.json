@@ -13,7 +13,8 @@
   "version": {
     "Major": "39",
     "Minor": "2",
-    "Patch": "9"
+    "Patch": "9",
+    "patch": "70.2.57"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "AzureDevOpsWikiToDocFx $(message)",
