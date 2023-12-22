@@ -1,48 +1,52 @@
 {
-  "manifestVersion": 1,
-  "id": "TestEnglishVersion",
-  "name": "NotRealJustATestB",
-  "version": "70.2.81",
-  "publisher": "Monta",
-  "targets": [
-    {
-      "id": "Microsoft.VisualStudio.Services"
-    }
-  ],
-  "description": "A task that generates a DocFX website out of your Azure DevOps wiki repository.",
-  "categories": [
-    "Azure Pipelines"
-  ],
-  "icons": {
-    "default": "icon.png"
-  },
-  "files": [
-    {
-      "path": "AzureDevOpsWikiToDocFx"
-    }
-  ],
-  "content": {
-    "details": {
-      "path": "overview.md"
+    "manifestVersion": 1,
+    "id": "AzureDevOpsWikiToDocFx-dev", 
+    "name": "Azure DevOps Wiki to DocFx Dev",
+    "version": "6.0.9",
+    "publisher": "Monta",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "A task that generates a DocFX website out of your Azure DevOps wiki repository.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "icon.png"
     },
-    "license": {
-      "path": "LICENSE"
-    }
-  },
-  "galleryFlags": [
-    "Public",
-    "Preview"
-  ],
-  "contributions": [
-    {
-      "id": "NotRealJustATestB",
-      "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
-      "properties": {
-        "name": "AzureDevOpsWikiToDocFx"
-      }
-    }
-  ]
+    "files": [
+        {
+            "path": "AzureDevOpsWikiToDocFx"
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        },
+        "license": {
+            "path": "LICENSE"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/Montapacking/AzureDevOpsWikiToDocFx"
+    },    
+    "galleryFlags": [
+        "Public",
+        "Preview"
+    ],
+    "contributions": [
+        {
+            "id": "AzureDevOpsWikiToDocFx",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "AzureDevOpsWikiToDocFx"
+            }
+        }
+    ]
 }
