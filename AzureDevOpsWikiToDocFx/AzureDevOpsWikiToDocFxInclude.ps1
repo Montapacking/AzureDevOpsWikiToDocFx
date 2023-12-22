@@ -564,7 +564,7 @@ function Copy-DevOpsWikiToDocFx {
 		  Write-Host "No .attachments folder found. Skipping attachment copy."
 		  }
 
-  # Copy attachments dir
+  # Copy attachments dir 
   
  # Copy-Item -Path (Join-Path $InputDir ".attachments") -Destination (Join-Path $OutputDir $AttachmentsDirName) -Recurse
 
