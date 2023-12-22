@@ -1,9 +1,9 @@
 {
   "manifestVersion": 1,
-  "id": "TestEnglishVersion",
-  "name": "NotRealJustATestA",
-  "version": "70.2.81",
-  "publisher": "MontaMdUpdate",
+  "id": "AzureDevOpsWikiToDocFx-dev",
+  "name": "Azure DevOps Wiki to DocFx Dev",
+  "version": "6.0.9",
+  "publisher": "Monta",
   "targets": [
     {
       "id": "Microsoft.VisualStudio.Services"
@@ -35,7 +35,7 @@
   ],
   "contributions": [
     {
-      "id": "NotRealJustATestB",
+      "id": "AzureDevOpsWikiToDocFx",
       "type": "ms.vss-distributed-task.task",
       "targets": [
         "ms.vss-distributed-task.tasks"
