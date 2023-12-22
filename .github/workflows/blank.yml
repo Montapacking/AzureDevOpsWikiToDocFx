@@ -62,7 +62,7 @@ jobs:
           incremented_version=$(awk -F. -v OFS=. '{++$3; print}' <<< "$current_version")
       
           # Navigate to the directory where task.json is located
-          cd AzureDevOpsWikiToDocFx/AzureDevOpsWikiToDocFx
+          cd AzureDevOpsWikiToDocFx/task.json
       
           jq --arg incremented_version "$incremented_version" '.version.patch = $incremented_version' task.json > task-modified.json
           mv task-modified.json task.json
