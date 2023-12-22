@@ -55,11 +55,14 @@ jobs:
           git push origin dev-test-action
       
           echo "::set-output name=version::$incremented_version"
-
+      
       - name: Increment Version task.json
         run: |
           current_version="${{ steps.get_version.outputs.version }}"
           incremented_version=$(awk -F. -v OFS=. '{++$3; print}' <<< "$current_version")
+      
+          # Navigate to the directory where task.json is located
+          cd AzureDevOpsWikiToDocFx/AzureDevOpsWikiToDocFx
       
           jq --arg incremented_version "$incremented_version" '.version.patch = $incremented_version' task.json > task-modified.json
           mv task-modified.json task.json
@@ -74,6 +77,7 @@ jobs:
           git push origin dev-test-action
       
           echo "::set-output name=version::$incremented_version"
+
 
           
       - name: Install jq
