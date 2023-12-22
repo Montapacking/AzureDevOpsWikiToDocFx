@@ -57,6 +57,7 @@ jobs:
           echo "::set-output name=version::$incremented_version"
       
           # Increment Version task.json
+          - name: Increment Version and Update task.json
           run: |
             current_versions="$(jq -r '.version.Patch' AzureDevOpsWikiToDocFx/task.json)"
             incremented_version=$((current_versions + 1))
