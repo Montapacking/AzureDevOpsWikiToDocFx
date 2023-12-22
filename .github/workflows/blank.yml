@@ -60,21 +60,20 @@ jobs:
         run: |
           current_version="$(jq -r '.version.patch' AzureDevOpsWikiToDocFx/task.json)"
           incremented_version=$((current_version + 1))
-      
+        
           jq --arg incremented_version "$incremented_version" '.version.Patch = $incremented_version' AzureDevOpsWikiToDocFx/task.json > task-modified.json
           mv task-modified.json AzureDevOpsWikiToDocFx/task.json
-
-      
+        
           cat AzureDevOpsWikiToDocFx/task.json
-      
+        
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git config user.name "${{ github.actor }}"
           git add AzureDevOpsWikiToDocFx/task.json
           git commit -m "Increment version to $incremented_version"
-      
           git push origin dev-test-action
-      
+        
           echo "::set-output name=version::$incremented_version"
+
 
 
 
