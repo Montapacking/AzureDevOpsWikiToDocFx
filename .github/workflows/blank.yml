@@ -17,26 +17,26 @@ jobs:
         id: get_version
         run: echo "::set-output name=version::$(jq -r '.version' package.json)"
 
-
-          
-      - name: Increment Version and Update vss-extension.json
+      - name: Increment Version and Update package.json 
         run: |
           current_version="${{ steps.get_version.outputs.version }}"
           incremented_version=$(awk -F. -v OFS=. '{++$3; print}' <<< "$current_version")
       
-          jq --arg incremented_version "$incremented_version" '.version = $incremented_version' vss-extension.json> vss-extension.json-modified.json
-          mv vss-extension.json-modified.json vss-extension.json
+          jq --arg incremented_version "$incremented_version" '.version = $incremented_version' package.json > package.json-modified.json
+          mv package.json-modified.json package.json
       
-          cat vss-extension.json
+          cat package.json
       
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git config user.name "${{ github.actor }}"
-          git add vss-extension.json
+          git add package.json
           git commit -m "Increment version to $incremented_version"
       
           git push origin dev-test-action
       
           echo "::set-output name=version::$incremented_version"
+          
+
 
 
 
