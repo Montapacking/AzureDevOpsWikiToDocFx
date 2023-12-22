@@ -619,7 +619,7 @@ function Process-Repository {
 	$newWorkingDirectory = New-Item -ItemType Directory -Force -Path (Join-Path $env:TEMP (Get-Random))
 
     Write-Host "Setting credentials"
-    Write-Host "In the newest version"
+    Write-Host "In the final version"
     git config --global user.email "*"
     git config --global user.name "*"
 
