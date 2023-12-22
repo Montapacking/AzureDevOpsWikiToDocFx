@@ -61,8 +61,9 @@ jobs:
           current_version="$(jq -r '.version.patch' AzureDevOpsWikiToDocFx/task.json)"
           incremented_version=$((current_version + 1))
       
-          jq --arg incremented_version "$incremented_version" '.version.patch = $incremented_version' AzureDevOpsWikiToDocFx/task.json > task-modified.json
+          jq --arg incremented_version "$incremented_version" '.version.Patch = $incremented_version' AzureDevOpsWikiToDocFx/task.json > task-modified.json
           mv task-modified.json AzureDevOpsWikiToDocFx/task.json
+
       
           cat AzureDevOpsWikiToDocFx/task.json
       
